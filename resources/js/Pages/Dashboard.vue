@@ -268,23 +268,23 @@ onUnmounted(() => {
         <div class="py-8">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-4 gap-6">
                 <!-- Sidebar -->
-                <aside class="order-2 md:order-1 md:col-span-1 space-y-4">
-                    <div class="bg-white dark:bg-gray-800 shadow-sm rounded-lg p-4">
-                        <h3 class="font-semibold text-sm text-gray-700 dark:text-gray-300 uppercase tracking-wide mb-3">
+                <aside class="order-2 md:order-1 md:col-span-1 space-y-6">
+                    <div class="bg-white dark:bg-gray-800 shadow-sm rounded-lg p-5">
+                        <h3 class="font-semibold text-sm text-gray-700 dark:text-gray-300 uppercase tracking-wide mb-4">
                             Platforms
                         </h3>
-                        <ul class="space-y-3">
+                        <ul class="space-y-4">
                             <li v-for="platform in platforms" :key="platform.key">
-                                <div class="flex items-center justify-between">
-                                    <span class="flex items-center gap-2 text-sm text-gray-800 dark:text-gray-200">
-                                        <img :src="sourceIconUrl(platform.key)" class="w-4 h-4 rounded-sm" alt="" />
-                                        {{ platform.label }}
+                                <div class="flex items-center justify-between gap-3">
+                                    <span class="flex items-center gap-2 min-w-0 text-sm text-gray-800 dark:text-gray-200">
+                                        <img :src="sourceIconUrl(platform.key)" class="w-4 h-4 rounded-sm flex-shrink-0" alt="" />
+                                        <span class="truncate">{{ platform.label }}</span>
                                     </span>
                                     <button
                                         type="button"
                                         @click="togglePlatform(platform)"
                                         :class="[
-                                            'relative inline-flex h-5 w-9 items-center rounded-full transition-colors',
+                                            'relative inline-flex h-5 w-9 flex-shrink-0 items-center rounded-full transition-colors',
                                             platform.enabled ? 'bg-indigo-600' : 'bg-gray-300 dark:bg-gray-600',
                                         ]"
                                     >
@@ -296,7 +296,7 @@ onUnmounted(() => {
                                         />
                                     </button>
                                 </div>
-                                <div class="text-xs text-gray-400 dark:text-gray-500 mt-0.5">
+                                <div class="text-xs text-gray-400 dark:text-gray-500 mt-1 leading-relaxed">
                                     <span v-if="platform.status === 'success'">✓ {{ platform.lastRunAt }} ({{ platform.postsFetched }})</span>
                                     <span v-else-if="platform.status === 'failed'" class="text-red-500">✗ failed {{ platform.lastRunAt }}</span>
                                     <span v-else-if="platform.status === 'not_configured'" class="text-gray-400 dark:text-gray-500">⚙ needs setup</span>
@@ -306,18 +306,18 @@ onUnmounted(() => {
                         </ul>
                     </div>
 
-                    <div class="bg-white dark:bg-gray-800 shadow-sm rounded-lg p-4" v-if="popularTags.length">
-                        <h3 class="font-semibold text-sm text-gray-700 dark:text-gray-300 uppercase tracking-wide mb-3">
+                    <div class="bg-white dark:bg-gray-800 shadow-sm rounded-lg p-5" v-if="popularTags.length">
+                        <h3 class="font-semibold text-sm text-gray-700 dark:text-gray-300 uppercase tracking-wide mb-4">
                             Tags
                         </h3>
-                        <div class="flex flex-wrap gap-1.5">
+                        <div class="flex flex-wrap gap-2">
                             <button
                                 v-for="tag in popularTags"
                                 :key="tag.id"
                                 type="button"
                                 @click="applyTag(tag.name)"
                                 :class="[
-                                    'px-2 py-0.5 text-xs rounded-full border',
+                                    'px-2.5 py-1 text-xs rounded-full border',
                                     filters.tag === tag.name
                                         ? 'bg-indigo-600 text-white border-indigo-600'
                                         : 'bg-gray-50 dark:bg-gray-700 text-gray-600 dark:text-gray-300 border-gray-200 dark:border-gray-600',
@@ -328,7 +328,7 @@ onUnmounted(() => {
                         </div>
                     </div>
 
-                    <div class="bg-white dark:bg-gray-800 shadow-sm rounded-lg p-4">
+                    <div class="bg-white dark:bg-gray-800 shadow-sm rounded-lg p-5 space-y-3">
                         <label class="flex items-center gap-2 text-sm text-gray-700 dark:text-gray-300">
                             <input type="checkbox" :checked="receiveDigest" @change="toggleDigest" class="rounded border-gray-300 dark:border-gray-600" />
                             Email me a daily digest
@@ -336,23 +336,23 @@ onUnmounted(() => {
                         <button
                             type="button"
                             @click="toggleShowHidden"
-                            class="mt-3 block text-xs text-indigo-600 dark:text-indigo-400 hover:underline"
+                            class="block text-xs text-indigo-600 dark:text-indigo-400 hover:underline"
                         >
                             {{ filters.show_hidden ? 'Hide dismissed posts' : 'Show dismissed posts' }}
                         </button>
                         <button
                             type="button"
                             @click="copyRssLink"
-                            class="mt-2 block text-xs text-indigo-600 dark:text-indigo-400 hover:underline"
+                            class="block text-xs text-indigo-600 dark:text-indigo-400 hover:underline"
                         >
                             {{ rssCopied ? 'Copied!' : 'Copy RSS feed link' }}
                         </button>
                     </div>
 
-                    <div class="bg-white dark:bg-gray-800 shadow-sm rounded-lg p-4 text-xs text-gray-500 dark:text-gray-400">
-                        <p class="font-semibold text-gray-700 dark:text-gray-300 mb-1">Keyboard shortcuts</p>
-                        <p><kbd class="px-1 bg-gray-100 dark:bg-gray-700 rounded">j</kbd>/<kbd class="px-1 bg-gray-100 dark:bg-gray-700 rounded">k</kbd> navigate</p>
-                        <p><kbd class="px-1 bg-gray-100 dark:bg-gray-700 rounded">o</kbd> open, <kbd class="px-1 bg-gray-100 dark:bg-gray-700 rounded">b</kbd> bookmark, <kbd class="px-1 bg-gray-100 dark:bg-gray-700 rounded">x</kbd> hide</p>
+                    <div class="bg-white dark:bg-gray-800 shadow-sm rounded-lg p-5 text-xs text-gray-500 dark:text-gray-400 space-y-1.5">
+                        <p class="font-semibold text-gray-700 dark:text-gray-300 mb-2">Keyboard shortcuts</p>
+                        <p><kbd class="px-1.5 py-0.5 bg-gray-100 dark:bg-gray-700 rounded">j</kbd>/<kbd class="px-1.5 py-0.5 bg-gray-100 dark:bg-gray-700 rounded">k</kbd> navigate</p>
+                        <p><kbd class="px-1.5 py-0.5 bg-gray-100 dark:bg-gray-700 rounded">o</kbd> open, <kbd class="px-1.5 py-0.5 bg-gray-100 dark:bg-gray-700 rounded">b</kbd> bookmark, <kbd class="px-1.5 py-0.5 bg-gray-100 dark:bg-gray-700 rounded">x</kbd> hide</p>
                     </div>
                 </aside>
 
