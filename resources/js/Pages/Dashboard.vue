@@ -185,19 +185,6 @@ function openShareLink(href) {
     openShareMenuId.value = null;
 }
 
-async function nativeShare(post) {
-    if (navigator.share) {
-        try {
-            await navigator.share({ title: post.title, url: post.url });
-        } catch (e) {
-            // user cancelled the native share sheet, nothing to do
-        }
-        return;
-    }
-
-    toggleShareMenu(post);
-}
-
 function copyPostLink(post) {
     navigator.clipboard.writeText(post.url).then(() => {
         linkCopiedId.value = post.id;
@@ -467,7 +454,7 @@ onUnmounted(() => {
                                     <div class="relative" data-share-container>
                                         <button
                                             type="button"
-                                            @click="nativeShare(post)"
+                                            @click="toggleShareMenu(post)"
                                             class="text-sm text-gray-300 dark:text-gray-600 hover:text-indigo-500"
                                             title="Share"
                                         >
